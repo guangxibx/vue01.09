@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app1">
+        <p>{{msg | public | private}}</p>
+    </div>
+    <div id="app2">
+        <p>{{msg | public | private}}</p>
+    </div>
+    <script>
+        //全局过滤器 可以在实例化vue之前定义
+        Vue.filter('public',function(input){
+            console.log('全局过滤器')
+            return input+'全局过滤器'
+        })
+        var vm1 = new Vue({
+            el:'#app1',
+            data:{
+                msg:'app1'
+            },
+            //定义私有过滤器 只能在vue实例中使用
+            filters:{
+                private(){
+                    console.log('私有过滤器');
+                    return '私有过滤器'
+                } 
+            }
+        }) 
+        var vm2 = new Vue({
+            el:'#app2',
+            data:{
+                msg:'app2'
+            }
+        })
+    </script>
+</body>
+</html>

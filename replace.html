@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{msg | demo}}</p>
+    </div>
+    <script>
+        //必须在实例化Vue之前定义全局过滤器
+        Vue.filter('demo',function(input){
+            // console.log('调用demo过滤器');
+            // console.log(input);
+            //将智慧改为 '菩提'
+            // return 'output'
+            return input.replace(/智慧/g,'菩提');
+        })
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'智慧树上智慧果,智慧树下你和我'
+            }
+        })
+    </script>
+</body>
+</html>

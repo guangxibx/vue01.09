@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app1">
+        <p v-public v-private>一个段落</p>
+    </div>
+    <div id="app2">
+        <p v-public v-private>一个段落</p>
+    </div>
+    <script>    
+        //全局指令
+        Vue.directive("public",function(){
+            //绑定bind钩子函数
+            console.log('全局指令');
+            
+        })
+        var vm1 = new Vue({
+            el:'#app1',
+            //私有指令
+            directives:{
+                private(){
+                    console.log('私有指令');
+                    
+                }
+            }
+        })
+        var vm2 = new Vue({
+            el:'#app2'
+        })
+    </script>
+</body>
+</html>

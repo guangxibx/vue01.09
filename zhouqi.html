@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'hello vue'
+            },
+            //直接在vue实例配置对象中绑定钩子函数即可
+            beforeCreate(){
+                console.log('触发了beforeCrate钩子函数');
+                console.log('尝试访问数据'+this.msg);
+                console.log('-------------------------');
+            },
+            created(){
+                console.log('触发了beforeCrate钩子函数');
+                console.log('尝试访问数据'+this.msg);
+                console.log(document.getElementById('app').innerHTML);
+                console.log('-------------------------');
+            },
+            beforeMount(){
+                console.log('触发了beforeMount钩子函数');
+                console.log('尝试访问数据'+this.msg);
+                console.log(document.getElementById('app').innerHTML);
+                console.log('-------------------------');
+            },
+            mounted(){
+                console.log('触发了mounted钩子函数');
+                console.log('尝试访问数据'+this.msg);
+                console.log(document.getElementById('app').innerHTML);
+                console.log('-------------------------');
+            },
+            beforeUpdate(){
+                console.log('触发了 beforeUpdate钩子函数');
+                console.log('尝试访问数据'+this.msg);
+                console.log(document.getElementById('app').innerHTML);
+                console.log('-------------------------');
+            },
+            updated(){
+                console.log('触发了 updated钩子函数');
+                console.log('尝试访问数据'+this.msg);
+                console.log(document.getElementById('app').innerHTML);
+                console.log('-------------------------');
+            }
+        })
+
+        //1:实例化vue new Vue()
+
+            //beforeCreate在执行new vue之后 vue实例还没创建之前
+        //2:Vue实例创建工作 把传入的配置参数真正绑定到vue对象上 产生效果
+            //created重点 vue实例创建完毕 传入的配置参数已经生效 尤其是data属性
+            
+            //beforeMount 数据渲染之前调用的果子之前 mount挂载 把数据挂在到页面中 数据渲染
+        //3:数据渲染
+            //mounted 数据已经渲染完毕后调用的果子函数
+
+            //beforeUpdate数据已经改变了 但是页面还未更新
+        //4:数据更新 重新渲染
+            //updated 数据更新了 页面也更新了
+    </script>
+</body>
+</html>

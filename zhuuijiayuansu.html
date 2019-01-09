@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        window.onload = function(){
+            //在body中追加一个input元素
+            //1:创建input元素
+            input = document.createElement('input')
+            input.type = 'text'
+            
+            //2;父元素.appendChild(子元素)
+            var body = document.getElementsByTagName('body')[0]
+
+            body.appendChild(input)
+            //有些操作必须在追加到dom树之后才能进行
+            //自动焦点
+            input.focus()
+        }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

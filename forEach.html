@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <script src="./vue-2.5.17.js"></script> -->
+</head>
+<body>
+    <!-- 原生js数组的遍历 -->
+    <script>
+        var arr = [1,2,3,4,5]
+
+        //forEach方法 遍历数组 没有返回值 undefined
+        // var forEachResult = arr.forEach(function(item,index,arr){
+        //     console.log(item);
+        //     console.log(index);
+        //     console.log(arr);
+            
+        // });
+
+        //map方法 批量处理数组元素 返回新数据 不改变旧数组
+        // var mapResult = arr.map(function(item,index,arr){
+        //     //让每个数组元素乘以5
+        //     return item*5
+        // })
+
+        //filter 方法 :过滤数组元素 返回新数组 不改变旧数组 通过返回值设定条件
+        // var filterResult = arr.filter(function(item){
+        //     //只保留偶数 
+        //     //return item%2==0  第一种写法
+        //     //换一种写法
+        //     if (item%2!==0) {
+        //         //进行下一步的操作 
+        //         //要保留
+        //         return true
+        //     }else{
+        //         //要过滤
+        //         return false
+        //     }
+        // })
+
+        //every方法  视图证明每个元素都符合条件 
+        // var everyResult = arr.every(function(item,index){
+        //     //遍历次数
+        //     console.log(`正在遍历:${item}`);
+        //     console.log(`正在遍历:${index}`);
+        //     //证明每个元素都小于5
+        //     return item<5  //false
+        // })
+
+        //some方法 视图证明某一个元素符合条件
+        // var someResult = arr.some(function(item){
+        //     //遍历次数
+        //     console.log(`正在遍历:${item}`);
+        //     //证明至少一个元素大于4
+        //     return item>4
+        // })
+
+        //findIndex 返回符合条件的数组元素索引
+        var findIndexResult = arr.findIndex(function(item){
+            //返回大于3的数组索引
+            return item >3
+        })
+    </script>
+</body>
+</html>

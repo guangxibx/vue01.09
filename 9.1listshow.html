@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue-2.5.17.js"></script>
+    <style> 
+        table{
+            width: 800px;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        th{
+            background-color: royalblue;
+            color: white;
+            font-size: 16px;
+            border: 1px solid black;
+        }
+        td{
+            border: 1px solid black;
+            text-align: center;
+        }
+        #funcs{
+            width: 800px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 功能面板 新增功能 搜索功能 -->
+        <div id="funcs">
+            <!-- 新增功能 -->
+            id: <input type="text" v-model='id'>
+            name: <input type="text" v-model='name' @keydown.enter='add'>
+            <button @click='add'>新增品牌</button>
+            <!-- 搜索功能 -->
+            关键字: <input type="text" v-model="keyword" v-focus>
+        </div>
+        <table>
+            <!-- 品牌信息列表 -->
+            <tr>
+                <th>#ID</th>
+                <th>品牌名称</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+            <!-- 空数据提示行 判断list的长度 -->
+            <tr v-show='list.length==0'>
+                <td colspan="4">暂时没数据</td>
+            </tr>
+            <!-- 循环遍历显示数据 使用v-for  搭配:key使用 -->
+            <tr v-for="item in search()" :key="item.id">
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.ctime | timeFormat}}</td>
+                <td><a href="#" @click.prevent="del(item.id)">删除</a></td>
+                <!-- prevent阻止默认行为 idtm.id:可以在事件函数中传入所需参数 -->
+            </tr>
+        </table>
+    </div>
+    <script>
+        //自定义指令
+        Vue.directive("focus",{
+            //inserted的时间点在追加到dom树之后 很适合自动聚焦功能
+            inserted(dom){
+                dom.focus()
+            }
+        })
+
+        //用全局过滤器处理时间格式
+        Vue.filter('timeFormat',function(time){
+            //根据当前事件 创建了不带良好格式的时间
+            //把时间转化为事件日期对象
+            var date = new Date(time);
+            //console.log(date);
+            //获取年份 2000年之前用getyear
+            var y = date.getFullYear()
+
+            //获取月份
+            var m = (date.getMonth()+1).toString().padStart(2,0)//返回值0`11
+
+            //获取日期
+            var d = date.getDate().toString().padStart(2,0)//1`31  day是0`6
+
+            //返回带有良好格式的时间日期
+            return `${y}-${m}-${d}`
+        })
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                list:[
+                    {id:1,name:'霸王',ctime:new Date()},
+                    {id:2,name:'海王洗发水',ctime:new Date()},
+                    {id:3,name:'海飞丝',ctime:new Date()},
+                    {id:4,name:'飘柔',ctime:new Date()},
+                    {id:5,name:'清扬',ctime:new Date()},
+                    {id:6,name:'伊鲁卡',ctime:new Date()},
+                ],
+                // 新增功能表单数据
+                id:'',
+                name:'',
+                // 搜索功能关键字
+                keyword:''
+            },
+            methods:{
+                //新增品牌方法 
+                add(){
+                    //获取并组装用户数据
+                    var newBrand = {id:this.id,name:this.name,ctime:new Date()};
+                    //将数据追加到尾部 用push
+                    this.list.push(newBrand);
+
+                    //清空旧数据
+                    this.name = ""
+                    this.id = ""//也可以这样写 this.id = this.name = "" 效果相同的
+                },
+                // 删除品牌方法
+                del(id){
+                    //根据要删除的id 删除数组元素 
+                    //filter方法会返回过滤后的新数组结果
+                    //filter方法
+                    // this.list = this.list.filter(function(item){
+                    //     if(item.id==id){
+                    //         //要删除的元素
+                    //         return false
+                    //     }else{
+                    //         //保留
+                    //         return true
+                    //     }
+                    // })
+
+                    // //some方法 return false 继续遍历 return true 停止遍历
+                    // this.list.some((item,index)=>{
+                    //     //this指向vm
+                    //     ////遍历数组元素 item.id==id
+                    //     if (item.id==id) {
+                    //         //这是要删除的元素
+                    //         this.list.splice(index,1)
+                    //         //停止遍历 返回true
+                    //         return true
+                    //     }else{
+                    //         //要保留的元素 继续遍历 
+                    //         return false
+                    //     }
+                    // })
+
+                    //findIndex方法  找到要删除的数据索引
+                    var index = this.list.findIndex(function(item){
+                        return item.id == id
+                    })
+                    //只要找到id  直接用splice方法删除即可
+                    this.list.splice(index,1)
+                },
+
+                //搜索方法 
+                search(){
+                    //获取用户关键字的信息
+                    //创建正则表达式 两种字面量形式 实例化形式
+                    var reg = new RegExp(this.keyword)
+
+                    //遍历数组元素
+                    var result = this.list.filter(item=>{
+                        //根据关键字 匹配 品牌中含有的关键字的品牌
+                        return reg.test(item.name)
+                    })
+                    return result
+                }
+            }          
+        })
+    </script>
+</body>
+</html>
